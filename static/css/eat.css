@@ -1,0 +1,125 @@
+.content {
+    text-align: center; /* 가운데 정렬 */
+}
+
+.page-title {
+    width: fit-content; /* 내용에 맞게 너비 설정 */
+    margin: 0 auto; /* 수평 가운데 정렬 */
+}
+
+ul {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    width : 400px
+}
+
+li img {
+    width: 100%; /* 이미지의 너비를 부모 요소에 맞게 조정 */
+    height: 150px; /* 이미지의 높이를 설정 (원하는 높이로 지정 가능) */
+    object-fit: cover; /* 이미지가 부모 요소에 맞게 잘리지 않고 자동으로 크기 조정되도록 설정 */
+}
+
+h4 {
+    height : 70px
+}
+
+h2.heading{
+    height : 20px
+}
+
+h2 {
+    height : 70px
+}
+
+h2.subpage {
+    height : 15px
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 수평 가운데 정렬 */
+    margin-bottom: 20px; /* 하단 여백 추가 */
+}
+
+.search-bar form {
+    text-align: center; /* 가운데 정렬 */
+    margin-top: 20px; /* 검색 폼과 제목 사이 간격 조정 */
+    display: flex;
+    align-items: center;
+    width: 400px; /* 검색 폼의 너비 설정 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+.search-bar input[type="submit"] {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-bar input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+    border-radius: 3px;
+}
+
+.pagination a.active {
+    background-color: #333;
+    color: #fff;
+}
+
+
+.side-bar {
+    width: 100%; /* 부모 요소의 가로폭을 100%로 설정합니다. */
+    text-align: center; /* 내부 요소를 가운데 정렬합니다. */
+}
+
+.toggle-button {
+    width: 100%;
+    padding: 10px; /* 버튼 안쪽 여백 조절 */
+    font-size: 16px; /* 버튼 텍스트 크기 조절 */
+    color: white; /* 텍스트 색상 */
+    background-color: #3498db; /* 배경색 변경 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 버튼 테두리를 둥글게 만듭니다. */
+}
+
+.content {
+    width: 100%; /* 내용 영역을 가로폭을 100%로 설정합니다. */
+}

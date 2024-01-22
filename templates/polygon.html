@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Expires" content="-1" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <style>
+      .button-container {
+        position: absolute;
+        top: 5px;
+        right: 50px;
+        padding: 15px;
+        display: flex;
+        flex-direction: row;
+        z-index: 1;
+      }
+
+      .button-container button {
+        margin-right: 10px;
+        background-color: #6495ed;
+        color: #fff;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .button-container button:last-child {
+        margin-right: 0;
+      }
+
+      /* image modal */
+      .modal {
+        display: none;
+        z-index: 500;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .modalBox {
+        position: relative;
+        text-align: center;
+        top: 15%;
+        left: 30%;
+        width: 50%;
+        max-height: 50%;
+        position: sticky;
+        cursor: pointer; /* 추가된 부분 */
+      }
+
+      .modalBox img {
+        width: 100%; /* 추가된 부분 */
+        height: auto; /* 추가된 부분 */
+      }
+
+      span img:hover {
+        cursor: -webkit-zoom-in;
+      }
+      /* image modal end */
+    </style>
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-1.10.2.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b9fc711131ecabb713a7fc9de962624"
+    ></script>
+  </head>
+  <body>
+    <div
+      class="map-wrap"
+      style="position: absolute; left: 0; top: 0; right: 0; bottom: 60px"
+    >
+      <div id="map" style="width: 100%; height: 100%"></div>
+    </div>
+    <div class="button-container">
+      <button id="goBack" class="back-button">뒤로 가기</button>
+      <button id="mainBack" class="main-button">홈으로</button>
+    </div>
+    <div class="modal">
+      <div class="modalBox"></div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("goBack").addEventListener("click", goBack);
+        document.getElementById("mainBack").addEventListener("click", mainBack);
+
+        // 모달 박스 클릭 시 모달 닫기
+        $(".modalBox").click(function (e) {
+          e.stopPropagation(); // 이벤트 전파 방지
+          $(".modal").hide();
+        });
+
+        // 모달 외부 클릭 시 모달 닫기
+        $(".modal").click(function () {
+          $(".modal").hide();
+        });
+      });
+
+      function goBack() {
+        window.history.back();
+      }
+
+      function mainBack() {
+        window.location.href = "/";
+      }
+
+      var mapContainer = document.getElementById("map");
+      var mapOption = {
+        center: new kakao.maps.LatLng(35.81891557318833, 128.48299134847161),
+        level: 13,
+      };
+
+      var map = new kakao.maps.Map(mapContainer, mapOption);
+
+      $.getJSON("/static/json/kr_city.json", function (geojson) {
+        var data = geojson.features;
+        $.each(data, function (index, val) {
+          var coordinates = val.geometry.coordinates[0];
+          var name = val.properties.SIG_KOR_NM;
+          var cd_location = val.properties.CTP_ENG_NM;
+          displayMap(coordinates, name, cd_location);
+        });
+      });
+
+      function displayMap(coordinates, name, cd_location) {
+        var path = coordinates.map(function (coordinate) {
+          return new kakao.maps.LatLng(coordinate[1], coordinate[0]);
+        });
+
+        var polygon = new kakao.maps.Polygon({
+          map: map,
+          path: path,
+          strokeWeight: 2,
+          strokeColor: "#004c80",
+          strokeOpacity: 0.8,
+          fillColor: "#fff",
+          fillOpacity: 0.7,
+        });
+
+        // 다각형에 mouseover 이벤트를 등록 & 이벤트시 폴리곤 색상 변경
+        kakao.maps.event.addListener(
+          polygon,
+          "mouseover",
+          function (mouseEvent) {
+            polygon.setOptions({ fillColor: "#09f" });
+          }
+        );
+
+        // 다각형에 마우스아웃시 폴리곤 색상 리턴
+        kakao.maps.event.addListener(polygon, "mouseout", function () {
+          polygon.setOptions({ fillColor: "#fff" });
+        });
+
+        // 다각형에 클릭 이벤트 등록
+        kakao.maps.event.addListener(polygon, "click", function () {
+          // 클릭한 도시의 cd_location을 동적으로 설정
+          let cityImagePath = "/static/image/" + cd_location + ".png" + "/";
+
+          // 모달에 이미지 추가
+          $(".modalBox").html(
+            '<img src="' + cityImagePath + '" alt="' + name + '">'
+          );
+
+          // 모달 표시
+          $(".modal").show();
+        });
+      }
+
+      function disableMapInteractions() {
+        kakao.maps.event.addListener(map, "dblclick", function (e) {
+          e.preventDefault();
+        });
+      }
+
+      disableMapInteractions();
+    </script>
+  </body>
+</html>

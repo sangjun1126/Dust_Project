@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <title>2020 미세먼지 API 호출</title>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>지역</th>
+            <th>데이터 값</th>
+            <th>데이터 날짜</th>
+            <th>이슈 값</th>
+            <th>이슈 시간</th>
+            <th>클리어 날짜</th>
+            <th>이슈 날짜</th>
+            <th>이동 이름</th>
+            <th>클리어 시간</th>
+            <th>이슈 구분</th>
+            <th>아이템 코드</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.get('districtName', '') }}</td>
+            <td>{{ item.get('clearVal', '') }}</td>
+            <td>{{ item.get('dataDate', '') }}</td>
+            <td>{{ item.get('issueVal', '') }}</td>
+            <td>{{ item.get('issueTime', '') }}</td>
+            <td>{{ item.get('clearDate', '') }}</td>
+            <td>{{ item.get('issueDate', '') }}</td>
+            <td>{{ item.get('moveName', '') }}</td>
+            <td>{{ item.get('clearTime', '') }}</td>
+            <td>{{ item.get('issueGbn', '') }}</td>
+            <td>{{ item.get('itemCode', '') }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
