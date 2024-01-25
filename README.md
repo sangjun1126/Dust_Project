@@ -17,3 +17,6 @@
 * 플라스크 및 데이터 베이스 연동
 * 리액트 개발 총 참여
 
+### 프로젝트 발표 PPT
+* [미세먼지 프로젝트.pptx](https://github.com/sangjun1126/Dust_Project/files/14048311/default.pptx)
+
